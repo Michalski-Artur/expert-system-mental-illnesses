@@ -94,8 +94,8 @@ make_sure(change_in_bodyweight, Y) :-
 
 make_sure(change_in_bodyweight, Y) :-
     ask(current_weight, CW),
-    ask(previous_weight, PW)
-    calculate_weight_change(CW, PW, WC)
+    ask(previous_weight, PW),
+    calculate_weight_change(CW, PW, WC),
     fuzzify_low(WC, L),
     fuzzify_medium(WC, M),
     fuzzify_high(WC, H),
@@ -117,7 +117,7 @@ make_sure(lack_of_trust, Y) :-
 
 make_sure(lack_of_trust, Y) :-
     ask(lack_of_trust, V),
-    V is 10 - V
+    V is 10 - V,
     fuzzify_low(V, L),
     fuzzify_medium(V, M),
     fuzzify_high(V, H),
@@ -155,7 +155,7 @@ debug :-
     format("----------------\n").
 
 calculate_weight_change(CW, PW, WC) :-
-    WC is (CW - PW)/PW + 0.5
+    WC is (CW - PW)/PW + 0.5.
 
 fuzzify_low(P, Factor) :-
     (
