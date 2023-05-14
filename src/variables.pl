@@ -1,4 +1,4 @@
-:- module(variables, [print_variables/1, available_options/2, question_text/2, training_text/2]).
+:- module(variables, [print_variables/1, available_options/2, question_text/2, illness_text/2]).
 
 print_variables([]) :- format('~n').
 print_variables([Head|Rest]) :-
