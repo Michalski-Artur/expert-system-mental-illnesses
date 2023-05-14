@@ -1,0 +1,1 @@
+schizophrenia,low,yes,yes,no,no,no,high,high,medium,yes,yes,high
