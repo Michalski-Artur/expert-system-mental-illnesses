@@ -45,51 +45,51 @@ namespace ExpertInterface
 
                 while (true)
                 {
-                    //Console.WriteLine();
-                    //Console.WriteLine("What do you want to do?");
-                    //Console.WriteLine("1) Insert illness");
-                    //Console.WriteLine("2) Update illness");
-                    //Console.WriteLine("3) Delete illness");
-                    //option = Console.ReadLine();
-                    //while (option != "1" && option != "2" && option != "3")
-                    //{
-                    //    Console.WriteLine("Invalid option specified.");
-                    //    Console.WriteLine("Possible options: 1, 2, 3.");
-                    //    option = Console.ReadLine();
-                    //}
+                    Console.WriteLine();
+                    Console.WriteLine("What do you want to do?");
+                    Console.WriteLine("1) Insert illness");
+                    Console.WriteLine("2) Update illness");
+                    Console.WriteLine("3) Delete illness");
+                    option = Console.ReadLine();
+                    while (option != "1" && option != "2" && option != "3")
+                    {
+                        Console.WriteLine("Invalid option specified.");
+                        Console.WriteLine("Possible options: 1, 2, 3.");
+                        option = Console.ReadLine();
+                    }
 
-                    //if (option == "1") //insert
-                    //{
-                    //    var illnessName = GetIllnessName();
+                    if (option == "1") //insert
+                    {
+                        var illnessName = GetIllnessName();
 
-                    //    var newIllness = CreateUniqueIllness(illnessName, expert.illnesses);
+                        var newIllness = CreateUniqueIllness(illnessName, expert.illnesses);
 
-                    //    expert.illnesses.Add(newIllness);
-                    //    Console.WriteLine("Illness was inserted.");
-                    //}
-                    //else if (option == "2") //update
-                    //{
-                    //    Console.WriteLine("All illnesses:");
-                    //    Console.WriteLine(String.Join(", ", expert.GetNames()));
+                        expert.illnesses.Add(newIllness);
+                        Console.WriteLine("Illness was inserted.");
+                    }
+                    else if (option == "2") //update
+                    {
+                        Console.WriteLine("All illnesses:");
+                        Console.WriteLine(String.Join(", ", expert.GetNames()));
 
-                    //    var illnessToUpdate = GetIllness(expert.illnesses);
-                    //    expert.illnesses.Remove(illnessToUpdate);
+                        var illnessToUpdate = GetIllness(expert.illnesses);
+                        expert.illnesses.Remove(illnessToUpdate);
 
-                    //    var newIllness = CreateUniqueIllness(illnessToUpdate.name, expert.illnesses);
-                    //    expert.illnesses.Add(newIllness);
+                        var newIllness = CreateUniqueIllness(illnessToUpdate.name, expert.illnesses);
+                        expert.illnesses.Add(newIllness);
 
-                    //    Console.WriteLine("Illness was updated!");
-                    //}
-                    //else if (option == "3") //delete
-                    //{
-                    //    Console.WriteLine("All illnesses:");
-                    //    Console.WriteLine(String.Join(", ", expert.GetNames()));
+                        Console.WriteLine("Illness was updated!");
+                    }
+                    else if (option == "3") //delete
+                    {
+                        Console.WriteLine("All illnesses:");
+                        Console.WriteLine(String.Join(", ", expert.GetNames()));
 
-                    //    var illnessToDelete = GetIllness(expert.illnesses);
-                    //    expert.illnesses.Remove(illnessToDelete);
+                        var illnessToDelete = GetIllness(expert.illnesses);
+                        expert.illnesses.Remove(illnessToDelete);
 
-                    //    Console.WriteLine("Illness was succesfully deleted!");
-                    //}
+                        Console.WriteLine("Illness was succesfully deleted!");
+                    }
 
                     expert.SaveIllnessesToFile();
                     var minRules = new MinimalRules(expert.illnesses.Select(x => (IDecision)x).ToList());
