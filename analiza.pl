@@ -57,31 +57,28 @@ good_mood(Disease, Factor) :-
 
 analyze_sleep_problems(Disease, Factor) :-
     db:sleep_problems(Disease, Data),
-    blur_sleep(Data, Factor).
+    blur_yesno(Data, Factor).
 
 analyze_suicidal_thoughts(Disease, Factor) :-
     db:suicidal_thoughts(Disease, Data),
-    blur_suicide(Data, Factor).
+    blur_yesno(Data, Factor).
 
 analyze_visual_hallucinations(Disease,Factor):-
     db:visual_hallucinations(Disease,Data),
-    blur_visual_hallucinations(Data, Factor).
+    blur_freq(Data, Factor).
 
 analyze_auditory_hallucinations(Disease,Factor):-
     db:auditory_hallucinations(Disease,Data),
-    blur_auditory_hallucinations(Data, Factor).
+    blur_freq(Data, Factor).
 
 analyze_addictions(Disease,Factor):-
     db:addictions(Disease,Data),
-    blur_addiction(Data, Factor).
+    blur_yesno(Data, Factor).
 
 analyze_stress_intensity(Disease, Factor) :-
     no_stress(Disease, NoF),
     average_stress(Disease, AvgF),
     lots_stress(Disease, LotsF),
-    % map_fuzzy_to_factor(little, LitteFuz),
-    % map_fuzzy_to_factor(average, AverageFuz),
-    % map_fuzzy_to_factor(lots, LotsFuz),
     sharpen(
     [NoF, AvgF, LotsF],
     [0, 0.5, 1],
@@ -150,9 +147,6 @@ analyze_change_in_bodyweight(Disease, Factor):-
     no_weight(Disease, NoF),
     average_weight(Disease, AvgF),
     lots_weight(Disease, LotsF),
-    % map_fuzzy_to_factor(little, LitteFuz),
-    % map_fuzzy_to_factor(average, AverageFuz),
-    % map_fuzzy_to_factor(lots, LotsFuz),
     sharpen(
     [NoF, AvgF, LotsF],
     [0, 0.5, 1],
@@ -185,19 +179,16 @@ lots_weight(Disease, Factor):-
 
 analyze_difficulty_focusing(Disease, Factor):-
     db:difficulty_focusing_attention(Disease,Data),
-    blur_difficulty_focusing(Data, Factor).
+    blur_yesno(Data, Factor).
 
 analyze_panic_attacks(Disease, Factor):-
     db:panic_attacks(Disease, Data),
-    blur_panic_attacks(Data, Factor).
+    blur_yesno(Data, Factor).
 
 analyze_lack_of_trust(Disease, Factor):-
     no_lack_trust(Disease, NoF),
     average_lack_trust(Disease, AvgF),
     lack_trust(Disease, LotsF),
-    % map_fuzzy_to_factor(little, LitteFuz),
-    % map_fuzzy_to_factor(average, AverageFuz),
-    % map_fuzzy_to_factor(lots, LotsFuz),
     sharpen(
     [NoF, AvgF, LotsF],
     [0, 0.5, 1.0],
@@ -228,12 +219,6 @@ lack_trust(Disease, Factor):-
         Factor is 0
     ).
 
-% map_fuzzy_to_factor(Fuzzy, Factor):-
-%     (
-%         Fuzzy = little -> Factor is 0;
-%         Fuzzy = average -> Factor is 0.5;
-%         Fuzzy = lots -> Factor is 1
-%     ).
 
 up_slope(X1, X2, Y, Factor):-
     Factor is (Y - X1) / (X2 - X1).
