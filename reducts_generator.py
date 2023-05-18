@@ -8,7 +8,6 @@ class ReductsGenerator:
         self.db = filename
         self.traits = []
 
-
     def get_disc_matrix(self) -> list:
         """
         Generates discernibility matrix. Each row is a list of lists of traits that differ from the row being compared.
@@ -52,7 +51,7 @@ class ReductsGenerator:
         reduced_matrix = [list(k) + [v] for k, v in reduced_dict.items()]
 
         return reduced_matrix
-    
+
     def _generate_diff_matrix(self, matrix) -> list:
         """
         Generates diff matrix. Each row is a list of lists of traits that differ from the row being compared.
