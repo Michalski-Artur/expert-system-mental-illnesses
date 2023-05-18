@@ -1,15 +1,15 @@
 :- module(blur, 
     [
-    blur_mood/2
+    blur_mood/2,
     blur_sleep/2,
     blur_suicide/2,
     blur_visual_hallucinations/2,
-    blur_sound_hallucinations/2,
+    blur_auditory_hallucinations/2,
     blur_addiction/2,
     blur_stress/2,
     blur_differ/2,
     blur_weight_change/2,
-    blur_difficulty_concentrating/2,
+    blur_difficulty_focusing/2,
     blur_panic_attacks/2,
     blur_suspiciousness/2
     ]).
@@ -36,7 +36,7 @@ blur_visual_hallucinations(Vh,Factor):-
 		Vh == rzadko -> Factor is 0.5;
 		Vh == czesto -> Factor is 1
 	).
-blur_sound_hallucinations(Sh,Factor):-
+blur_auditory_hallucinations(Sh,Factor):-
 	(
 		Sh == brak -> Factor is 0;
 		Sh == rzadko -> Factor is 0.5;
@@ -65,7 +65,7 @@ blur_weight_change(Weight,Factor):-
 		Weight == 0.5 -> Factor is 0.5;
 		Weight == 1 -> Factor is 1
 	).
-blur_difficulty_concentrating(Conc,Factor):-
+blur_difficulty_focusing(Conc,Factor):-
 	(
 		Conc == nie -> Factor is 0;
 		Conc == tak -> Factor is 1

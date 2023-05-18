@@ -1,50 +1,63 @@
 :- module(logistics, 
-    [analyze_visual_hallucinations/2,
-    analyze_hearing_hallucinations/2,
-    analyze_somatic_hallucinations/2,
-    analyze_thinking_disorder/2,
-    analyze_high_stress/2,
-    analyze_communicativeness/2,
+    [analyze_mood/2,
+    analyze_sleep_problems/2,
+    analyze_suicidal_thoughts/2,
+    analyze_visual_hallucinations/2,
+    analyze_auditory_hallucinations/2,
+    analyze_addictions/2,
     analyze_weight_change/2,
-    analyze_difficulty_concentrating/2,
+    analyze_stress_intensity/2,
+    analyze_difference/2,
+    analyze_change_in_bodyweight/2,
+    analyze_difficulty_focusing/2,
     analyze_panic_attacks/2,
-    analyze_suspiciousness/2]).
+    analyze_lack_of_trust/2]).
 
-:- consult(database).
-:- use_module(database).
+:- consult(db).
+:- use_module(db).
 
-:- use_module(blurring).
+:- use_module(blur).
+
+
+analyze_mood(Disease, Factor) :-
+    db:mood(Disease, Data),
+    blur_mood(Data, Factor).
+
+
+analyze_sleep_problems(Disease, Factor) :-
+    db:sleep_problems(Disease, Data),
+    blur_sleep(Data, Factor).
+
+analyze_suicidal_thoughts(Disease, Factor) :-
+    db:suicidal_thoughts(Disease, Data),
+    blur_suicide(Data, Factor).
 
 analyze_visual_hallucinations(Disease,Factor):-
-    database:visual_hallucinations(Disease,Data),
+    db:visual_hallucinations(Disease,Data),
     blur_visual_hallucinations(Data, Factor).
 
-analyze_hearing_hallucinations(Disease,Factor):-
-    database:hearing_hallucinations(Disease,Data),
-    blur_hearing_hallucinations(Data, Factor).
+analyze_auditory_hallucinations(Disease,Factor):-
+    db:auditory_hallucinations(Disease,Data),
+    blur_auditory_hallucinations(Data, Factor).
 
-analyze_somatic_hallucinations(Disease,Factor):-
-    database:somatic_hallucinations(Disease,Data),
-    blur_somatic_hallucinations(Data, Factor).
+analyze_addictions(Disease,Factor):-
+    db:addictions(Disease,Data),
+    blur_addiction(Data, Factor).
 
-analyze_thinking_disorder(Disease,Factor):-
-    database:thinking_disorder(Disease,Data),
-    blur_thinking_disorder(Data, Factor).
-
-analyze_high_stress(Disease,Factor) :-
+analyze_stress_intensity(Disease, Factor) :-
     no_stress(Disease, NoF),
     average_stress(Disease, AvgF),
     lots_stress(Disease, LotsF),
-    map_fuzzy_to_factor(little, LitteFuz),
-    map_fuzzy_to_factor(average, AverageFuz),
-    map_fuzzy_to_factor(lots, LotsFuz),
+    % map_fuzzy_to_factor(little, LitteFuz),
+    % map_fuzzy_to_factor(average, AverageFuz),
+    % map_fuzzy_to_factor(lots, LotsFuz),
     sharpen(
     [NoF, AvgF, LotsF],
-    [LitteFuz, AverageFuz, LotsFuz],
+    [0, 0.5, 1],
     Factor).
 
 no_stress(Disease,Factor) :-
-    database:high_stress(Disease,Stress),
+    db:stress_intensity(Disease, Stress),
     (
         Stress < 0.2 -> Factor is 1.0;
         Stress >= 0.2, Stress < 0.4 -> down_slope(0.2, 0.4, Stress, Factor);
@@ -52,7 +65,7 @@ no_stress(Disease,Factor) :-
     ).
 
 average_stress(Disease, Factor) :-
-    database:high_stress(Disease,Stress),
+    db:stress_intensity(Disease, Stress),
     (
         Stress >= 0.2, Stress < 0.4 -> up_slope(0.2, 0.4, Stress, Factor);
         Stress >= 0.4, Stress < 0.6 -> Factor is 1;
@@ -61,64 +74,61 @@ average_stress(Disease, Factor) :-
     ).
 
 lots_stress(Disease, Factor) :-
-    database:high_stress(Disease,Stress),
+    db:stress_intensity(Disease, Stress),
     (
         Stress >= 0.6, Stress < 0.8 -> up_slope(0.6, 0.8, Stress, Factor);
         Stress >= 0.8 -> Factor is 1;
         Factor is 0
     ).
 
-analyze_communicativeness(Disease,Factor):-
-    no_comm(Disease, NoF),
-    average_comm(Disease, AvgF),
-    lots_comm(Disease, LotsF),
-    map_fuzzy_to_factor(little, LitteFuz),
-    map_fuzzy_to_factor(average, AverageFuz),
-    map_fuzzy_to_factor(lots, LotsFuz),
+analyze_difference(Disease, Factor):-
+    no_diff(Disease, NoF),
+    average_diff(Disease, AvgF),
+    lots_diff(Disease, LotsF),
     sharpen(
     [NoF, AvgF, LotsF],
-    [LitteFuz, AverageFuz, LotsFuz],
+    [0, 0.5, 1],
     Factor).
 
-no_comm(Disease,Factor) :-
-    database:communicativeness(Disease,Comm),
+no_diff(Disease,Factor) :-
+    db:sense_of_difference(Disease,Diff),
     (
-        Comm < 0.2 -> Factor is 1.0;
-        Comm >= 0.2, Comm < 0.4 -> down_slope(0.2, 0.4, Comm, Factor);
+        Diff < 0.2 -> Factor is 1.0;
+        Diff >= 0.2, Diff < 0.4 -> down_slope(0.2, 0.4, Diff, Factor);
         Factor is 0
     ).
 
-average_comm(Disease, Factor) :-
-    database:communicativeness(Disease,Comm),
+average_diff(Disease, Factor) :-
+    db:sense_of_difference(Disease,Diff),
     (
-        Comm >= 0.2, Comm < 0.4 -> up_slope(0.2, 0.4, Comm, Factor);
-        Comm >= 0.4, Comm < 0.6 -> Factor is 1;
-        Comm >= 0.6, Comm < 0.8 -> down_slope(0.6, 0.8, Comm, Factor);
+        Diff >= 0.2, Diff < 0.4 -> up_slope(0.2, 0.4, Diff, Factor);
+        Diff >= 0.4, Diff < 0.6 -> Factor is 1;
+        Diff >= 0.6, Diff < 0.8 -> down_slope(0.6, 0.8, Diff, Factor);
         Factor is 0
     ).
 
-lots_comm(Disease, Factor) :-
-    database:communicativeness(Disease,Comm),
+lots_diff(Disease, Factor) :-
+    db:sense_of_difference(Disease,Diff),
     (
-        Comm >= 0.6, Comm < 0.8 -> up_slope(0.6, 0.8, Comm, Factor);
-        Comm >= 0.8 -> Factor is 1;
+        Diff >= 0.6, Diff < 0.8 -> up_slope(0.6, 0.8, Diff, Factor);
+        Diff >= 0.8 -> Factor is 1;
         Factor is 0
     ).
 
-analyze_weight_change(Disease,Factor):-
+analyze_change_in_bodyweight(Disease, Factor):-
     no_weight(Disease, NoF),
     average_weight(Disease, AvgF),
     lots_weight(Disease, LotsF),
-    map_fuzzy_to_factor(little, LitteFuz),
-    map_fuzzy_to_factor(average, AverageFuz),
-    map_fuzzy_to_factor(lots, LotsFuz),
+    % map_fuzzy_to_factor(little, LitteFuz),
+    % map_fuzzy_to_factor(average, AverageFuz),
+    % map_fuzzy_to_factor(lots, LotsFuz),
     sharpen(
     [NoF, AvgF, LotsF],
-    [LitteFuz, AverageFuz, LotsFuz],
+    [0, 0.5, 1],
     Factor).
 
 no_weight(Disease,Factor):-
-    database:weight_change(Disease,WeightChange),
+    db:change_in_bodyweight(Disease,WeightChange),
     (
         WeightChange < 0.2 -> Factor is 1.0;
         WeightChange >= 0.2, WeightChange < 0.4 -> down_slope(0.2, 0.4, WeightChange, Factor);
@@ -126,7 +136,7 @@ no_weight(Disease,Factor):-
     ).
 
 average_weight(Disease, Factor):-
-    database:weight_change(Disease,WeightChange),
+    db:change_in_bodyweight(Disease,WeightChange),
     (
         WeightChange >= 0.2, WeightChange < 0.4 -> up_slope(0.2, 0.4, WeightChange, Factor);
         WeightChange >= 0.4, WeightChange < 0.6 -> Factor is 1;
@@ -135,43 +145,43 @@ average_weight(Disease, Factor):-
     ).
 
 lots_weight(Disease, Factor):-
-    database:weight_change(Disease,WeightChange),
+    db:change_in_bodyweight(Disease,WeightChange),
     (
         WeightChange >= 0.6, WeightChange < 0.8 -> up_slope(0.6, 0.8, WeightChange, Factor);
         WeightChange >= 0.8 -> Factor is 1;
         Factor is 0
     ).
 
-analyze_difficulty_concentrating(Disease,Factor):-
-    database:difficulty_concentrating(Disease,Data),
-    blur_difficulty_concentrating(Data, Factor).
+analyze_difficulty_focusing(Disease, Factor):-
+    db:difficulty_focusing_attention(Disease,Data),
+    blur_difficulty_focusing(Data, Factor).
 
-analyze_panic_attacks(Disease,Factor):-
-    database:panic_attacks(Disease,Data),
+analyze_panic_attacks(Disease, Factor):-
+    db:panic_attacks(Disease, Data),
     blur_panic_attacks(Data, Factor).
 
-analyze_suspiciousness(Disease,Factor):-
-    no_sus(Disease, NoF),
-    average_sus(Disease, AvgF),
-    lots_sus(Disease, LotsF),
-    map_fuzzy_to_factor(little, LitteFuz),
-    map_fuzzy_to_factor(average, AverageFuz),
-    map_fuzzy_to_factor(lots, LotsFuz),
+analyze_lack_of_trust(Disease, Factor):-
+    no_lack_trust(Disease, NoF),
+    average_lack_trust(Disease, AvgF),
+    lack_trust(Disease, LotsF),
+    % map_fuzzy_to_factor(little, LitteFuz),
+    % map_fuzzy_to_factor(average, AverageFuz),
+    % map_fuzzy_to_factor(lots, LotsFuz),
     sharpen(
     [NoF, AvgF, LotsF],
-    [LitteFuz, AverageFuz, LotsFuz],
+    [0, 0.5, 1.0],
     Factor).
 
-no_sus(Disease,Factor):-
-    database:suspiciousness(Disease,Sus),
+no_lack_trust(Disease,Factor):-
+    db:lack_of_trust(Disease,Sus),
     (
         Sus < 0.2 -> Factor is 1.0;
         Sus >= 0.2, Sus < 0.4 -> down_slope(0.2, 0.4, Sus, Factor);
         Factor is 0
     ).
 
-average_sus(Disease, Factor):-
-    database:suspiciousness(Disease,Sus),
+average_lack_trust(Disease, Factor):-
+    db:lack_of_trust(Disease,Sus),
     (
         Sus >= 0.2, Sus < 0.4 -> up_slope(0.2, 0.4, Sus, Factor);
         Sus >= 0.4, Sus < 0.6 -> Factor is 1;
@@ -179,20 +189,20 @@ average_sus(Disease, Factor):-
         Factor is 0
     ).
 
-lots_sus(Disease, Factor):-
-    database:suspiciousness(Disease,Sus),
+lack_trust(Disease, Factor):-
+    db:lack_of_trust(Disease,Sus),
     (
         Sus >= 0.6, Sus < 0.8 -> up_slope(0.6, 0.8, Sus, Factor);
         Sus >= 0.8 -> Factor is 1;
         Factor is 0
     ).
 
-map_fuzzy_to_factor(Fuzzy, Factor):-
-    (
-        Fuzzy = little -> Factor is 0;
-        Fuzzy = average -> Factor is 0.5;
-        Fuzzy = lots -> Factor is 1
-    ).
+% map_fuzzy_to_factor(Fuzzy, Factor):-
+%     (
+%         Fuzzy = little -> Factor is 0;
+%         Fuzzy = average -> Factor is 0.5;
+%         Fuzzy = lots -> Factor is 1
+%     ).
 
 up_slope(X1, X2, Y, Factor):-
     Factor is (Y - X1) / (X2 - X1).
@@ -219,4 +229,4 @@ sum_list([H|T], Sum) :-
     Sum is H + Sum2.
 
 :-
-	[database].
+	[db].

@@ -119,7 +119,7 @@ get_weight_change_prob(WC,Disease,WC_prob):-
     WC_prob is 1 - abs(WC_blur - Factor).
 
 get_difficulty_concentrating_prob(DC,Disease,DC_prob):-
-    blur_difficulty_concentrating(DC,DC_blur),
+    blur_difficulty_focusing(DC,DC_blur),
     analyze_difficulty_concentrating(Disease,Factor),
     DC_prob is 1 - abs(DC_blur - Factor).
 	
