@@ -17,7 +17,7 @@ ask_questions([M,SL,SU,VH,SH,A,S,D,WC,DC,PA,SUS]) :-
 	ask_suspiciousness(SUS).
 
 ask_mood(M) :-
-	format('Jaki nastrój odczuwa na co dzień pacjent (0-fatalny, 1 - doskonały)?~n'),
+	format('Jaki nastroj odczuwa na co dzien pacjent (0-fatalny, 1 - doskonaly)?~n'),
     fuzzy_list(Choices),
 	print_list(Choices),
 	read(M).
@@ -29,7 +29,7 @@ ask_sleep(SL) :-
 	read(SL).
 
 ask_suicide(SU) :-
-	format('Czy pacjent ma myśli samobójcze ?~n'),
+	format('Czy pacjent ma myśli samobojcze ?~n'),
     yesno_list(Choices),
 	print_list(Choices),
 	read(SU).
@@ -41,40 +41,40 @@ ask_visual_hallucinations(VH) :-
 	read(VH).
 
 ask_sound_hallucinations(SH) :-
-	format('Czy pacjent odczuwa halucynacje słuchowe ?~n'),
+	format('Czy pacjent odczuwa halucynacje sluchowe ?~n'),
     frequency_list(Choices),
 	print_list(Choices),
 	read(SH).
 
 ask_addiction(A):-
-	format('Czy pacjent ma jakieś uzależnienia ?~n'),
+	format('Czy pacjent ma jakies uzaleznienia ?~n'),
     yesno_list(Choices),
 	print_list(Choices),
 	read(A).
 
 % fuzzy
 ask_stress(S) :-
-	format('W jak dużym stopniu pacjent odczuwa stres w życiu codziennym (0 - wcale, 1 - cały czas)?~n'),
+	format('W jak duzym stopniu pacjent odczuwa stres w zyciu codziennym (0 - wcale, 1 - caly czas)?~n'),
 	fuzzy_list(Choices),
 	print_list(Choices),
 	read(S).
 
 % fuzzy
 ask_differ(D) :-
-	format('Jak bardzo pacjent czuje, że nie pasuje do społeczeństwa? (0 - doskonale pasuje, 1 - w ogóle nie pasuje)~n'),
+	format('Jak bardzo pacjent czuje, ze nie pasuje do spoleczenstwa? (0 - doskonale pasuje, 1 - w ogole nie pasuje)~n'),
 	fuzzy_list(Choices),
 	print_list(Choices),
 	read(D).
 
 % fuzzy
 ask_weight_change(WC) :-
-	format('Jak zmieniła się waga pacjenta w okresie ostatniego rok?(0 - mocno w dół, 1 - mocno w górę)~n'),
+	format('Jak zmienila sie waga pacjenta w okresie ostatniego rok?(0 - mocno w dol, 1 - mocno w gore)~n'),
 	fuzzy_list(Choices),
 	print_list(Choices),
 	read(WC).
 
 ask_difficulty_concentrating(DC) :-
-	format('Czy pacjent odczuwa trudność w skupieniu uwagu?~n'),
+	format('Czy pacjent odczuwa trudnosc w skupieniu uwagi?~n'),
     yesno_list(Choices),
 	print_list(Choices),
 	read(DC).
@@ -86,7 +86,7 @@ ask_panic_attacks(PA) :-
 	read(PA).
 % fuzzy
 ask_suspiciousness(SUS) :-
-	format('Jak bardzo pacjent jest podejrzliwy względem lekarza?(0 - ma pełne zaufanie, 1 - zupełny brak zaufania)~n'),
+	format('Jak bardzo pacjent jest podejrzliwy względem lekarza?(0 - ma pelne zaufanie, 1 - zupelny brak zaufania)~n'),
 	fuzzy_list(Choices),
 	print_list(Choices),
 	read(SUS).

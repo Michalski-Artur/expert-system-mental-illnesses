@@ -8,17 +8,23 @@ start_expert_module :-
     write("* 1. Zaktualizuj chorobe."),nl,
     write("* 2. Dodaj chorobe."),nl,
     write("* 3. Usun chorobe."),nl,
-    write("* 4. Zamknij modul eksperta."),nl,
+    write("* 4. Wyswietl zapisane choroby."),nl,
+    write("* 5. Zamknij modul eksperta."),nl,
     write("****************************"),nl,
-    write("Wprowadz cyfre {1, 2, 3, 4}: "),
+    write("Wprowadz cyfre {1, 2, 3, 4, 5}: "),
     read(Choice),nl,
     (
         Choice == 1 -> update_disease;
         Choice == 2 -> add_disease;
         Choice == 3 -> delete_disease;
-        Choice == 4 -> !, fail
+        Choice == 4 -> show_disease;
+        Choice == 5 -> !, fail
     ),
     fail.
+
+show_disease:-
+    findall(Fact, db:mood(Fact,_), Facts),
+    write(Facts).
 
 update_disease :- 
     write("*** Aktualizacja choroby ***"), nl,
@@ -46,33 +52,34 @@ get_disease_name(Disease) :-
     read(Disease).
 
 save_changes :-
-    tell('database.pl'),
-    listing(database:visual_hallucinations),
-
-    listing(database:hearing_hallucinations),
-
-    
-    listing(database:somatic_hallucinations),
-    listing(database:thinking_disorder),
-    listing(database:high_stress),
-    listing(database:communicativeness),
-    listing(database:weight_change),
-    listing(database:difficulty_concentrating),
-    listing(database:panic_attacks),
-    listing(database:suspiciousness),
+    tell('db.pl'),
+    listing(db:mood),
+    listing(db:sleep_problems),
+    listing(db:suicidal_thoughts),
+    listing(db:visual_hallucinations),
+    listing(db:auditory_hallucinations),
+    listing(db:addictions),
+    listing(db:stress_intensity),
+    listing(db:sense_of_difference),
+    listing(db:change_in_bodyweight),
+    listing(db:difficulty_focusing_attention),
+    listing(db:panic_attacks),
+    listing(db:lack_of_trust),
     told.
 
 delete_entry(Disease) :-
-    retractall(database:visual_hallucinations(Disease, _)),
-    retractall(database:hearing_hallucinations(Disease, _)),
-    retractall(database:somatic_hallucinations(Disease, _)),
-    retractall(database:thinking_disorder(Disease, _)),
-    retractall(database:high_stress(Disease, _)),
-    retractall(database:communicativeness(Disease, _)),
-    retractall(database:weight_change(Disease, _)),
-    retractall(database:difficulty_concentrating(Disease, _)),
-    retractall(database:panic_attacks(Disease, _)),
-    retractall(database:suspiciousness(Disease, _)),
+    retractall(db:mood(Disease, _)),
+    retractall(db:sleep_problems(Disease, _)),
+    retractall(db:suicidal_thoughts(Disease, _)),
+    retractall(db:visual_hallucinations(Disease, _)),
+    retractall(db:auditory_hallucinations(Disease, _)),
+    retractall(db:addictions(Disease, _)),
+    retractall(db:stress_intensity(Disease, _)),
+    retractall(db:sense_of_difference(Disease, _)),
+    retractall(db:change_in_bodyweight(Disease, _)),
+    retractall(db:difficulty_focusing_attention(Disease, _)),
+    retractall(db:panic_attacks(Disease, _)),
+    retractall(db:lack_of_trust(Disease, _)),
     save_changes.
 
 get_symptoms([
@@ -89,62 +96,66 @@ get_symptoms([
     Panic_attacks,
     Suspiciousness
     ]) :-
-        write("Samopoczucie {0, 0.5, 1}: "),
+        write("Samopoczucie (0-fatalny, 1 - doskonaly): "),
         read(Mood),
 
-        write("Problemy ze snem {nie, tak}: "),
+        write("Problemy ze snem (nie, tak): "),
         read(SleepProblem),
 
-        write("Mysli samobojcze {nie, tak}: "),
+        write("Mysli samobojcze (nie, tak): "),
         read(Suicide),
 
-        write("Halucynacje wzrokowe {brak, rzadko, czesto}: "),
+        write("Halucynacje wzrokowe (brak, rzadko, czesto): "),
         read(Visual_hallucinations),
 
-        write("Halucynacje sluchowe {brak, rzadko, czesto}: "),
+        write("Halucynacje sluchowe (brak, rzadko, czesto): "),
         read(Sound_hallucinations),
 
-        write("Uzaleznienia {nie, tak}: "),
+        write("Uzaleznienia (nie, tak): "),
         read(Addiction),
 
-        write("Stres [0 - 1]: "),
+        write("Stres (0 - wcale, 1 - caly czas): "),
         read(Stress),
 
-        write("Poczucie odmiennosci [0 - 1]: "),
+        write("Poczucie odmiennosci (0 - doskonale pasuje, 1 - w ogole nie pasuje): "),
         read(Differ),
 
-        write("Zmiana wagi [0 - 1]: "),
+        write("Zmiana wagi (0 - mocno w dol, 1 - mocno w gore): "),
         read(Weight_change),
 
-        write("Problemy z koncetracja {nie,tak}: "),
+        write("Problemy z koncetracja (nie, tak): "),
         read(Difficulty_concentrating),
 
-        write("Ataki paniki {nie,tak}: "),
+        write("Ataki paniki (nie, tak): "),
         read(Panic_attacks),
 
-        write("Brak zaufania [0 - 1]: "),
+        write("Brak zaufania (0 - ma pelne zaufanie, 1 - zupelny brak zaufania): "),
         read(Suspiciousness).
 
 add_entry(Disease, [
-    Visual_hallucinations, 
-    Hearing_hallucinations,
-    Somatic_hallucinations,
-    Thinking_disorder,
-    High_stress,
-    Communicativeness,
+    Mood,
+    SleepProblem,
+    Suicide,
+    Visual_hallucinations,
+    Sound_hallucinations,
+    Addiction,
+    Stress,
+    Differ,
     Weight_change,
     Difficulty_concentrating,
     Panic_attacks,
     Suspiciousness
     ]) :- 
-    assertz(database:visual_hallucinations(Disease, Visual_hallucinations)),
-    assertz(database:hearing_hallucinations(Disease, Hearing_hallucinations)),
-    assertz(database:somatic_hallucinations(Disease, Somatic_hallucinations)),
-    assertz(database:thinking_disorder(Disease, Thinking_disorder)),
-    assertz(database:high_stress(Disease, High_stress)),
-    assertz(database:communicativeness(Disease, Communicativeness)),
-    assertz(database:weight_change(Disease, Weight_change)),
-    assertz(database:difficulty_concentrating(Disease, Difficulty_concentrating)),
-    assertz(database:panic_attacks(Disease, Panic_attacks)),
-    assertz(database:suspiciousness(Disease, Suspiciousness)),
+    assertz(db:mood(Disease,Mood)),
+    assertz(db:sleep_problems(Disease,SleepProblem)),
+    assertz(db:suicidal_thoughts(Disease,Suicide)),
+    assertz(db:visual_hallucinations(Disease,Visual_hallucinations)),
+    assertz(db:auditory_hallucinations(Disease,Sound_hallucinations)),
+    assertz(db:addictions(Disease,Addiction)),
+    assertz(db:stress_intensity(Disease,Stress)),
+    assertz(db:sense_of_difference(Disease,Differ)),
+    assertz(db:change_in_bodyweight(Disease,Weight_change)),
+    assertz(db:difficulty_focusing_attention(Disease,Difficulty_concentrating)),
+    assertz(db:panic_attacks(Disease,Panic_attacks)),
+    assertz(db:lack_of_trust(Disease,Suspiciousness)),
     save_changes.

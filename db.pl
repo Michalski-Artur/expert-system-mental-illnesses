@@ -53,6 +53,7 @@ auditory_hallucinations(nutritional_disorders,brak).
 auditory_hallucinations(anxiety_disorders,czesto).
 
 % 6 - uzaleznienia
+:- dynamic addictions/2.
 
 addictions(personality_disorders,nie).
 addictions(affective_disorders,tak).
