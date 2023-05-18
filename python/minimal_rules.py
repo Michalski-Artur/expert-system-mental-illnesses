@@ -58,7 +58,7 @@ def make_matrix():
         params = traits()
 
         for idx, param in enumerate(params):
-            pattern = re.escape(param) + r"\(\w+\,\w+"
+            pattern = pattern = re.escape(param) + r"\(\w+\s*,\s*(?:\d+(?:\.\d+)?|\w+)"
             results = re.findall(pattern, content)
             levels = [result.split('(')[1].split(',')[1] for result in results]
             diseases = [result.split('(')[1].split(',')[0] for result in results]

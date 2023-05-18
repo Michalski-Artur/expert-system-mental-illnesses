@@ -1,10 +1,10 @@
 
-% 1 - nastroj
-:- dynamic mood/2.
+% % 1 - nastroj
+% :- dynamic mood/2.
 
-mood(personality_disorders, 0.7).
-mood(affective_disorders, 0.2).
-mood(schizophrenia, 0.9).
+mood(personality_disorders, 0.4).
+mood(affective_disorders, 0.3).
+mood(schizophrenia, 0.6).
 mood(depression, 0.1).
 mood(nutritional_disorders, 0.4).
 mood(anxiety_disorders, 0.3).
@@ -49,7 +49,7 @@ auditory_hallucinations(affective_disorders,rarely).
 auditory_hallucinations(schizophrenia,often).
 auditory_hallucinations(depression,none).
 auditory_hallucinations(nutritional_disorders,none).
-auditory_hallucinations(anxiety_disorders,rarely).
+auditory_hallucinations(anxiety_disorders,often).
 
 % 6 - uzaleznienia
 
@@ -65,18 +65,18 @@ addictions(anxiety_disorders,no).
 :- dynamic stress_intensity/2.
 
 stress_intensity(personality_disorders,0.15).
-stress_intensity(affective_disorders,0.5).
-stress_intensity(schizophrenia,0.92).
+stress_intensity(affective_disorders,0.3).
+stress_intensity(schizophrenia,0.7).
 stress_intensity(depression,0.3).
 stress_intensity(nutritional_disorders,1.0).
-stress_intensity(anxiety_disorders,0.1).
+stress_intensity(anxiety_disorders,0.0).
 
 % 8 - poczucie odmiennosci
 :- dynamic sense_of_difference.
 
-sense_of_difference(personality_disorders,0.92).
+sense_of_difference(personality_disorders,0.85).
 sense_of_difference(affective_disorders,0.6).
-sense_of_difference(schizophrenia,0.75).
+sense_of_difference(schizophrenia,0.85).
 sense_of_difference(depression,0.3).
 sense_of_difference(nutritional_disorders,0.1).
 sense_of_difference(anxiety_disorders,0.4).
@@ -115,11 +115,11 @@ panic_attacks(anxiety_disorders,no).
 % 12 - brak zaufania
 :- dynamic lack_of_trust/2.
 
-lack_of_trust(personality_disorders,0.5).
-lack_of_trust(affective_disorders,0.1).
-lack_of_trust(schizophrenia,0.7).
-lack_of_trust(depression,0.75).
+lack_of_trust(personality_disorders,0.4).
+lack_of_trust(affective_disorders,0.7).
+lack_of_trust(schizophrenia,0.8).
+lack_of_trust(depression,0.15).
 lack_of_trust(nutritional_disorders,0.4).
-lack_of_trust(anxiety_disorders,0.1).
+lack_of_trust(anxiety_disorders,0.15).
 
 
