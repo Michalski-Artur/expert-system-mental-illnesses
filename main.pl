@@ -23,7 +23,7 @@ main:-
     read(Choice),nl,
     (
         Choice == 1 -> user_process;
-        Choice == 2 -> expert:start_expert_module;
+        Choice == 2 -> ekspert:start_expert_module;
         Choice == 3 -> !, halt
     ),
     halt.
