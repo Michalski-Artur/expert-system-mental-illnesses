@@ -13,24 +13,18 @@ class ReductsGenerator:
         Generates discernibility matrix. Each row is a list of lists of traits that differ from the row being compared.
         """
         disease_levels = defaultdict(list)
+
         with open(self.db, "r") as f:
             pattern = r"\w*\(\w+\s*,\s*(?:\d+(?:\.\d+)?|\w+)\)"
             content = f.read()
             results = re.findall(pattern, content)
-            for result in results:
-                trait, disease, level = (
-                    result.split("(")[0],
-                    result.split("(")[1].split(",")[0],
-                    result.split("(")[1].split(",")[1].split(")")[0],
-                )
-                disease_levels[disease].append(level)
-                if trait not in self.traits:
-                    self.traits.append(trait)
 
-        full_matrix = []
-        for disease, levels in disease_levels.items():
-            full_matrix.append(levels)
-            full_matrix[-1].append(disease)
+        for result in results:
+            trait, disease, level = re.match(r"(\w*)\((\w+)\s*,\s*(\d+(?:\.\d+)?|\w+)\)", result).groups()
+            disease_levels[disease].append(level)
+            self.traits.append(trait) if trait not in self.traits else None
+
+        full_matrix = [[*levels, disease] for disease, levels in disease_levels.items()]
 
         reduced_matrix = self._reduce_matrix(full_matrix)
         diff_matrix = self._generate_diff_matrix(reduced_matrix)
