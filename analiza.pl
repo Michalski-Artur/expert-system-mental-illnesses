@@ -1,4 +1,4 @@
-:- module(logistics, 
+:- module(analiza, 
     [analyze_mood/2,
     analyze_sleep_problems/2,
     analyze_suicidal_thoughts/2,

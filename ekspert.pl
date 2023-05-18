@@ -1,6 +1,6 @@
 :- module(ekspert, [start_expert_module/0]).
 
-:- use_module(database).
+:- use_module(db).
 
 start_expert_module :-
     repeat,
@@ -76,7 +76,7 @@ delete_entry(Disease) :-
     save_changes.
 
 get_symptoms([
-    Mood
+    Mood,
     SleepProblem,
     Suicide,
     Visual_hallucinations,
@@ -108,7 +108,7 @@ get_symptoms([
         read(Addiction),
 
         write("Stres [0 - 1]: "),
-        read(Stres),
+        read(Stress),
 
         write("Poczucie odmiennosci [0 - 1]: "),
         read(Differ),

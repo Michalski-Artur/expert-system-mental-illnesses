@@ -1,4 +1,4 @@
-:- module(pytania, [ask_questions/1, fuzzy_list/2]).
+:- module(pytania, [ask_questions/1, fuzzy_list/1]).
 
 use_module(helpers).
 
@@ -16,7 +16,6 @@ ask_questions([M,SL,SU,VH,SH,A,S,D,WC,DC,PA,SUS]) :-
 	ask_panic_attacks(PA),
 	ask_suspiciousness(SUS).
 
-% fuzzy
 ask_mood(M) :-
 	format('Jaki nastrój odczuwa na co dzień pacjent (0-fatalny, 1 - doskonały)?~n'),
     fuzzy_list(Choices),
@@ -45,7 +44,7 @@ ask_sound_hallucinations(SH) :-
 	format('Czy pacjent odczuwa halucynacje słuchowe ?~n'),
     frequency_list(Choices),
 	print_list(Choices),
-	read(VH).
+	read(SH).
 
 ask_addiction(A):-
 	format('Czy pacjent ma jakieś uzależnienia ?~n'),
