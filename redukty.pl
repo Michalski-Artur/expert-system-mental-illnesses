@@ -1,4 +1,4 @@
 :- dynamic reduct/1.
 
-reduct(stress_intensity).
+reduct(stress).
 reduct(mood).

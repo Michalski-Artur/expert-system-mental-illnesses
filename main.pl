@@ -26,7 +26,7 @@ main:-
         Choice == 2 -> ekspert:start_expert_module;
         Choice == 3 -> !, halt
     ),
-    halt.
+    fail.
 
 user_process :- 
     write("Zostaniesz przeprowadzony przez serie pytan niezbednych do przeprowadzenia diagnozy pacjenta"),nl,
