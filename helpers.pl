@@ -1,4 +1,4 @@
-:- module(helpers, [print_list/1, get_mean_value/2, sum_list/2,show_results/1]).
+:- module(helpers, [print_list/1, get_mean_value/2, sum_list/2, show_results/1]).
 
 
 print_list([]) :- 

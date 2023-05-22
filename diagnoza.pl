@@ -2,7 +2,6 @@
 
 :- use_module(helpers).
 :- use_module(analiza).
-:- use_module(blur).
 :- consult(redukty).
 
 diagnoza(Answers,DiseaseAndProbability):-
@@ -137,5 +136,4 @@ get_suspiciousness_prob(SUS,Disease,SUS_prob):-
 
 :-
 	[helpers],
-    [analiza],
-    [blur].
+    [analiza].
